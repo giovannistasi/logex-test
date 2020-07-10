@@ -1,0 +1,20 @@
+<agm-map [latitude]="lat" [longitude]="lng" [fitBounds]="markers.length > 1" (mapClick)="close_window()">
+    <agm-marker-cluster 
+      [imagePath]="'https://github.com/googlemaps/js-marker-clusterer/blob/gh-pages/images/m3.png?raw=true'"
+      [minimumClusterSize]=20
+    >
+      <agm-marker
+        *ngFor="let m of markers"
+        [latitude]="m.lat" 
+        [longitude]="m.lng"
+        [agmFitBounds]="true"
+        (markerClick)=select_marker(infoWindow)
+      >
+        <agm-info-window #infoWindow>
+          <strong>{{m.name}}</strong><br>
+          <p>{{m.description}}</p>
+          <a href="{{m.url}}"><span class="description-attribution"> {{m.url}} </span></a>
+        </agm-info-window>
+      </agm-marker>
+  </agm-marker-cluster>
+</agm-map>

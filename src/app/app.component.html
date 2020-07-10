@@ -1,0 +1,38 @@
+<div class="container">
+  <form class="filters">
+    <mat-form-field appearance="fill">
+      <mat-label>Search name or postcode</mat-label>
+      <input #filterName matInput type="search" placeholder="Search name or postcode" value=""
+        (keyup)="handleSearchName($event.target.value)">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Select cities</mat-label>
+      <mat-select #filterCities multiple (selectionChange)="handleCitySelect($event.value)">
+        <mat-option *ngFor="let city of cities" [value]="city">{{city}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Select start year</mat-label>
+      <mat-select #filterYears (selectionChange)="handleYearSelect($event.value)">
+        <mat-option *ngFor="let year of startYears" [value]="year">{{year}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-raised-button color="primary"
+      (click)="handleClearFilters(); filterName.value = ''; filterCities.value=[]; filterYears.value=''">
+      Clear filters
+    </button>
+  </form>
+
+  <mat-tab-group animationDuration="0ms" mat-stretch-tabs>
+    <mat-tab label="Table">
+      <div style="height: 100%; width: 100%; overflow: hidden">
+        <app-venues-list [dataSource]="dataSource"></app-venues-list>
+      </div>
+    </mat-tab>
+    <mat-tab label="Map">
+      <ng-template matTabContent>
+        <app-map [venuesData]="dataSource.filteredData"></app-map>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</div>
